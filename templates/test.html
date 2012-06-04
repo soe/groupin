@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row"><div class="span8">
+	<form class="form-vertical" action="/service/post" method="post" enctype="multipart/form-data">
+	<fieldset>
+	  	{% if submitted %}
+      <div class="alert">
+        Submitted the test file. Check <a href="/admin">queue overview</a> in this app or check the AppEngine's <a href="https://appengine.google.com/logs?&app_id=s~{{app_name}}" target="_blank">logs here</a>.
+      </div>
+      {% endif %}
+      <!--<div class="control-group">
+        <label class="control-label" for="textarea">CSV file</label>
+        <div class="controls">
+          <input type="file" name="csv" />
+          <p class="help-block">CSV file, for testing just enter the content here</p>
+        </div>
+      </div>-->
+      <div class="control-group">
+        <label class="control-label" for="textarea">CSV file</label>
+        <div class="controls">
+          <textarea class="input-xlarge span5" id="textarea" name="csv" rows="8">email, group
+soe@soe.im,staff@soe.im
+joe@soe.im,staff@soe.im
+kevin@soe.im,staff@soe.im
+david@soe.im,staff@soe.im
+jeff@soe.im,staff@soe.im
+jess@soe.im,staff@soe.im
+mike@soe.im,staff@soe.im
+bob@soe.im,staff@soe.im
+adam@soe.im,staff@soe.im
+ryan@soe.im,staff@soe.im
+sandra@soe.im,staff@soe.im
+peter@soe.im,staff@soe.im
+soe@soe.im,managers@soe.im
+joe@soe.im,managers@soe.im
+kevin@soe.im,managers@soe.im
+david@soe.im,managers@soe.im
+jeff@soe.im,managers@soe.im
+jess@soe.im,managers@soe.im
+mike@soe.im,managers@soe.im
+bob@soe.im,managers@soe.im
+adam@soe.im,managers@soe.im
+ryan@soe.im,managers@soe.im
+sandra@soe.im,managers@soe.im
+peter@soe.im,managers@soe.im
+soe@soe.im,moderators@soe.im
+joe@soe.im,moderators@soe.im
+kevin@soe.im,moderators@soe.im
+david@soe.im,moderators@soe.im
+jeff@soe.im,moderators@soe.im
+jess@soe.im,moderators@soe.im
+mike@soe.im,moderators@soe.im
+bob@soe.im,moderators@soe.im
+adam@soe.im,moderators@soe.im
+ryan@soe.im,moderators@soe.im
+sandra@soe.im,moderators@soe.im
+peter@soe.im,moderators@soe.im
+soe@soe.im,boss@soe.im
+joe@soe.im,boss@soe.im
+kevin@soe.im,boss@soe.im
+david@soe.im,boss@soe.im
+jeff@soe.im,boss@soe.im
+jess@soe.im,boss@soe.im
+mike@soe.im,boss@soe.im
+bob@soe.im,boss@soe.im
+adam@soe.im,boss@soe.im
+ryan@soe.im,boss@soe.im
+sandra@soe.im,boss@soe.im
+peter@soe.im,boss@soe.im
+soe@soe.im,board@soe.im
+joe@soe.im,board@soe.im
+kevin@soe.im,board@soe.im
+david@soe.im,board@soe.im
+jeff@soe.im,board@soe.im
+jess@soe.im,board@soe.im
+mike@soe.im,board@soe.im
+bob@soe.im,board@soe.im
+adam@soe.im,board@soe.im
+ryan@soe.im,board@soe.im
+sandra@soe.im,board@soe.im
+peter@soe.im,board@soe.im
+soe@soe.im,marketing@soe.im
+joe@soe.im,marketing@soe.im
+kevin@soe.im,marketing@soe.im
+david@soe.im,marketing@soe.im
+jeff@soe.im,marketing@soe.im
+jess@soe.im,marketing@soe.im
+mike@soe.im,marketing@soe.im
+bob@soe.im,marketing@soe.im
+adam@soe.im,marketing@soe.im
+ryan@soe.im,marketing@soe.im
+sandra@soe.im,marketing@soe.im
+peter@soe.im,marketing@soe.im
+soe@soe.im,sales@soe.im
+joe@soe.im,sales@soe.im
+kevin@soe.im,sales@soe.im
+david@soe.im,sales@soe.im
+jeff@soe.im,sales@soe.im
+jess@soe.im,sales@soe.im
+mike@soe.im,sales@soe.im
+bob@soe.im,sales@soe.im
+adam@soe.im,sales@soe.im
+ryan@soe.im,sales@soe.im
+sandra@soe.im,sales@soe.im
+peter@soe.im,sales@soe.im
+soe@soe.im,community@soe.im
+joe@soe.im,community@soe.im
+kevin@soe.im,community@soe.im
+david@soe.im,community@soe.im
+jeff@soe.im,community@soe.im
+jess@soe.im,community@soe.im
+mike@soe.im,community@soe.im
+bob@soe.im,community@soe.im
+adam@soe.im,community@soe.im
+ryan@soe.im,community@soe.im
+sandra@soe.im,community@soe.im
+peter@soe.im,community@soe.im
+soe@soe.im,support@soe.im
+joe@soe.im,support@soe.im
+kevin@soe.im,support@soe.im
+david@soe.im,support@soe.im
+jeff@soe.im,support@soe.im
+jess@soe.im,support@soe.im
+mike@soe.im,support@soe.im
+bob@soe.im,support@soe.im
+adam@soe.im,support@soe.im
+ryan@soe.im,support@soe.im
+sandra@soe.im,support@soe.im
+peter@soe.im,support@soe.im
+soe@soe.im,dev@soe.im
+joe@soe.im,dev@soe.im
+kevin@soe.im,dev@soe.im
+david@soe.im,dev@soe.im
+jeff@soe.im,dev@soe.im
+jess@soe.im,dev@soe.im
+mike@soe.im,dev@soe.im
+bob@soe.im,dev@soe.im
+adam@soe.im,dev@soe.im
+ryan@soe.im,dev@soe.im
+sandra@soe.im,dev@soe.im
+peter@soe.im,dev@soe.im
+          </textarea>
+          <p class="help-block">CSV file, for testing just enter the content here</p>
+        </div>
+      </div>
+      <input type="hidden" name="test" value="true" />
+      <div class="control-group">
+        <label class="control-label">Service Token</label>
+        <div class="controls">
+          <input type="text" class="input span3" name="token" value="53cr3t"/>
+          <p class="help-block">Token used for accessing service</p>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn" href="/admin">Cancel</a>
+      </div>
+    </fieldset>
+	</form>
+</div></div>
+
+{% endblock %}

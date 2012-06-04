@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row"><div class="span8">
+  <div class="alert alert-error">
+  	<b>Unauthorized</b><br /><br />
+  	You are unauthorized to access this area.<br />
+  	Your account, {{email}}, must be an admin of this AppEngine application.
+  </div>
+</div></div>
+{% endblock %}

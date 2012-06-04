@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="span8">
+	{% if login_url %}
+	  <a href="{{login_url}}" class="btn btn-primary pull-right">
+	    <i class="icon-white icon-ok"></i> Login via Google
+	  </a>
+	{% endif %}
+	{% if logout_url %}
+	  <a href="{{logout_url}}" class="btn btn-primary pull-right">
+	    <i class="icon-white icon-off"></i> Logout
+	  </a>
+	  <div class="btn-group pull-right" style="margin-right: 4px; width: 86px;">
+      <button class="btn">Admin</button>
+      <button class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="/admin">Queue Status</a></li>
+        <li><a href="/admin/config">Configuration</a></li>
+        {% if app_name %}
+          <li><a href="https://appengine.google.com/logs?&app_id=s~{{app_name}}" target="_blank">AppEngine's Logs</a></li>
+        {% endif %}
+        <li class="divider"></li>
+        <li><a href="/admin/test">Test Service</a></li>
+      </ul>
+    </div>
+	{% endif %}
+    <h3 style="background: url('/static/img/groupin.png') no-repeat; padding-left: 32px;">
+      GroupIn - 
+      <span style="font-size: 82%; color: #888;">{{where}}</span>
+    </h3>
+  	<hr />
+	</div>
+</div>
+<style type="text/css">
+  .btn-group.pull-right .dropdown-menu { 
+    left: auto; 
+    right: 0; 
+    &:before { 
+      left: auto; 
+      right: 12px; 
+    } 
+    &:after { 
+      left: auto; 
+      right: 13px; 
+    } 
+  }
+</style>
