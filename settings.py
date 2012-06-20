@@ -6,14 +6,6 @@ import os
 # config for webapp2
 config = {}
 
-config['GDATA'] = {
-  'DOMAIN': 'soe.im', # this can be overwritten in config
-  'APP_NAME': 'groupin-soe',
-  'CONSUMER_KEY': '441537484364-mh2pmtvqs5ae4o3qlelk89idjsl904eo.apps.googleusercontent.com',
-  'CONSUMER_SECRET': 'NnxGeSwyS_R3u2mQReSeuSdr',
-  'SCOPES': ['https://apps-apis.google.com/a/feeds/groups/']
-}
-
 config['webapp2_extras.sessions'] = {
     'secret_key': 'my-super-secret-key',
 }

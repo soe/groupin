@@ -3,6 +3,13 @@ from google.appengine.api import memcache
 
 import logging
 
+class Counsellor(db.Model):
+    username = db.StringProperty()
+    avatar = db.BlobProperty(default=None)
+    
+    organization = db.StringProperty()
+    created = db.DateTimeProperty(auto_now_add=True)
+    
 class Status(db.Model):
     filename = db.StringProperty()
     blob_key = blobstore.BlobReferenceProperty()

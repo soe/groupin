@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="span8">
+  
+  </div>
+</div>
+<div class="row">
+  <div class="span8">
+    <table cellpadding="0"><tr>
+    <td valign="top"><div id="kids">
+      <h4>Kids (<span id="kids-count">0</span>)</h4>
+      <br />
+      <!--<div class="kid off" id="jan">
+        Jan <i class="icon-comment icon"></i>
+      </div>
+    
+      <div class="kid off" id="florian">
+        Florian <i class="icon-comment icon"></i>
+      </div>-->
+  
+    </div></td>
+    
+    <td width="100%"><div id="chat-windows">
+      <!--<div class="chat-window" id="chat-window-jan">
+        <div class="chat">
+          <div class="chat-name">Jan</div>
+          <div class="chat-msg">Hello</div>
+        </div>
+      </div>
+      <div class="chat-window" id="chat-window-florian">
+        <div class="chat">
+          <div class="chat-name">Florian</div>
+          <div class="chat-msg">Hello</div>
+        </div>
+      </div>-->
+    </div></td>
+    </tr></table>
+    <h4>Chat as Jan</h4>  
+    <div>
+        <input type="text" id="jan-publish-text" name="publish" value=""/>
+        <input type="button" id="jan-publish-btn" value="publish" />
+    </div>
+    <br />
+    <h4>Chat as Florian</h4>
+    <div>
+        <input type="text" id="florian-publish-text" name="publish" value=""/>
+        <input type="button" id="florian-publish-btn" value="publish" />
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  #kids {
+    width: 140px;
+  }
+  
+  #chat-windows {
+    border: 4px solid #eee;
+    width: 100%;
+    height: 300px;
+  }
+  
+  .kid {
+    border: 1px solid #eee;
+    border-right: 0;
+    width: auto;
+    padding: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
+  
+  .kid.on {
+    background-color: #eee;
+  }
+  
+  .kid .icon {
+    float: right;
+    display: none;
+  }
+  
+  .kid .icon.on {
+    display: block;
+  }
+  
+  .kid.off .icon {
+    display: none;
+  }
+  
+  .chat-window {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 6px;
+    display: none;
+  }
+  
+  .chat-window.on {
+    display: block;
+  }
+  
+  .chat-name {
+    display: inline-block;
+    width: 50px;
+    font-style: italic;
+  }
+  
+  .chat-msg {
+    display: inline-block;
+  }
+</style>
+{% endblock %}
+
+{% block extra_body %}
+<div pub-key="pub-91077960-1dd7-4875-83c4-c8fd5c634bee" sub-key="sub-786b929e-bab1-11e1-b880-a3fb466a40d5" ssl="off" origin="pubsub.pubnub.com" id="pubnub"></div>
+<script src="http://cdn.pubnub.com/pubnub-3.1.min.js"></script>
+<script>
+$(document).ready(function() {
+  function AddKid(uuid, channel) {
+    $('#kids').append('<div class="kid off" id="kid-'+ uuid +'" uuid="'+ uuid +'">'+ uuid +' <i class="icon-comment icon"></i></div>');
+    $('#chat-windows').append('<div class="chat-window" id="chat-window-'+ uuid +'" />');
+    $('#kids-count').text(parseInt($('#kids-count').text()) + 1);
+    
+    // LISTEN FOR MESSAGES
+    PUBNUB.subscribe({
+        channel: 'kid-'+ uuid,
+        restore: true,
+
+        callback: function(message) { // RECEIVED A MESSAGE.
+            console.log(message);
+            $('#chat-window-'+ uuid).prepend('<div class="chat"><div class="chat-name">'+ uuid +'</div><div class="chat-msg">'+ message.text +'</div></div>');
+            $('#kid-'+ uuid +' .icon').addClass('on');
+        },
+
+        disconnect: function() { // LOST CONNECTION.
+            //alert("Connection Lost. Will auto-reconnect when Online.")
+        },
+
+        reconnect: function() { // CONNECTION RESTORED.
+            //alert("And we're Back!");
+        },
+
+        /*connect: function() { // CONNECTION ESTABLISHED.
+            PUBNUB.publish({ // SEND A MESSAGE.
+                channel: "hello_world",
+                message: "Hi from PubNub."
+            })
+        }*/
+    });
+  } // end AddKid
+  
+  // dynamically add chatters/kids
+  AddKid('Jan', 'channel');
+  AddKid('Florian', 'channel');
+  AddKid('Soe', 'channel');
+  
+  // activate the first kid
+  $('.chat-window:first').addClass('on').removeClass('off');
+  $('.kid:first').addClass('on').removeClass('off');
+  
+  // listener for .kid
+  $('#kids').delegate('.kid', 'click', function() {
+    $('.kid.on').removeClass('on').addClass('off');
+    $(this).removeClass('off').addClass('on');
+    
+    $('.chat-window.on').removeClass('on');
+    $('#chat-window-'+ $(this).attr('uuid')).removeClass('off').addClass('on');
+    
+    $(this).children('icon').removeClass('on');
+  });
+  
+  // listen to commands for counsellor screen
+  PUBNUB.subscribe({
+    channel: 'counselor-12345',
+    restore: false,
+
+    callback: function(message) { // received a command
+      console.log(message);
+      AddKid(message.uuid, message.channel);
+    },
+  });
+  
+  // just for debugging purpose
+  $('#jan-publish-btn').on('click', function() {
+    PUBNUB.publish({ // SEND A MESSAGE.
+      channel : "kid-Jan",
+      message : {
+        text: $('#jan-publish-text').val()
+      }
+    });
+
+    $('#jan-publish-text').val('');
+  });
+    
+  $('#florian-publish-btn').on('click', function() {
+    PUBNUB.publish({ // SEND A MESSAGE.
+      channel : "kid-Florian",
+      message : {
+        text: $('#florian-publish-text').val()
+      }
+    });
+
+    $('#florian-publish-text').val('');
+  });
+  
+});
+</script>
+{% endblock %}

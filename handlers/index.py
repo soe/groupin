@@ -21,5 +21,5 @@ class Index(AbstractHandler):
             
         if users.is_current_user_admin():
             # admin page
-            self.redirect('/admin')
+            self.redirect('/support')
             return           
